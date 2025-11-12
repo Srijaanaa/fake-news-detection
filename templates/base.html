@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top">
+<div class="container">
+<a class="navbar-brand fw-bold" href="{{ url_for('index') }}"><i class="fas fa-search me-1"></i> Fake News Detector</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<li class="nav-item">
+<a class="nav-link" href="{{ url_for('index') }}">Home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="{{ url_for('history') }}">History</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+</li>
+</ul>
+<ul class="navbar-nav ms-auto">
+<!-- Bulk Upload Dropdown -->
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBulk" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+Bulk Upload
+</a>
+<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBulk">
+<li>
+<form method="POST" action="{{ url_for('bulk_upload') }}" enctype="multipart/form-data" class="p-3">
+<div class="mb-3">
+<label for="csvFile" class="form-label small">Upload a CSV file</label>
+<input type="file" class="form-control form-control-sm" id="csvFile" name="file" accept=".csv" required>
+</div>
+<div class="d-grid">
+<button type="submit" class="btn btn-primary btn-sm">Upload & Classify</button>
+</div>
+</form>
+</li>
+</ul>
+</li>
+
+            <!-- Admin Dashboard Link (Only visible to admin) -->
+            {% if is_authenticated() and is_admin() %}
+            <li class="nav-item d-flex align-items-center me-3">
+                <a class="btn btn-warning btn-sm fw-bold text-dark" href="{{ url_for('admin_dashboard') }}">
+                    <i class="fas fa-tools"></i> Admin Panel
+                </a>
+            </li>
+            {% endif %}
+
+            <!-- Profile and Logout Dropdown (Replaces old Logout button) -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle btn btn-outline-light rounded-pill px-3 ms-lg-3 fw-bold" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i> User Menu
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserDropdown">
+                    <!-- THE NEW PROFILE LINK -->
+                    <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="fas fa-cog me-2"></i> Edit Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</nav>
